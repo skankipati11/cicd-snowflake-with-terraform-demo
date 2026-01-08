@@ -9,8 +9,7 @@ terraform {
   backend "s3" {
     bucket = "tf-state-store-sk"
     key    = "terraform-staging.tfstate"
-    region = "ap-south-1"
-    # Optional DynamoDB for state locking. See https://developer.hashicorp.com/terraform/language/settings/backends/s3 for details.
+    region = "ap-south-1"    
     dynamodb_table = "terraform-state-lock-table"
     encrypt        = true
   }
