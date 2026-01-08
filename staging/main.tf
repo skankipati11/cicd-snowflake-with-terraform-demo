@@ -1,8 +1,7 @@
 terraform {
   required_providers {
     snowflake = {
-      source  = "Snowflake-Labs/snowflake"
-      version = "0.63.0"
+      source = "snowflakedb/snowflake"
     }
   }
 
@@ -16,10 +15,10 @@ terraform {
 }
 
 provider "snowflake" {
-  organization_name = "XODJOPC"
-  account_name      = "JTC04659"
-  user              = "skankipati"
-  role              = "ACCOUNTADMIN" # change later
+  organization_name = "xodjopc"
+  account_name      = "jtc04659"
+  user              = "SKANKIPATI"
+  role              = "ACCOUNTADMIN"
   authenticator     = "SNOWFLAKE_JWT"
   private_key       = var.snowflake_private_key
 }
