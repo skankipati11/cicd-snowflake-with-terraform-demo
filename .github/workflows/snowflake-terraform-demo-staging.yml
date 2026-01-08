@@ -14,7 +14,10 @@ jobs:
     name: "Plan & Deploy Terraform plan on Staging"
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
+      contents: read
       pull-requests: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,6 +28,8 @@ jobs:
           role-to-assume: arn:aws:iam::842675976939:role/github-actions-terraform
           aws-region: ap-south-1
 
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
