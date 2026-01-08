@@ -1,32 +1,49 @@
 terraform {
   required_providers {
     snowflake = {
-      source  = "Snowflake-Labs/snowflake"
-      version = "0.63.0"
+      source = "snowflakedb/snowflake"
     }
   }
 
   backend "s3" {
-    bucket         = "<your-bucket-name>"
+    bucket         = "tf-state-store-sk"
     key            = "terraform-staging.tfstate"
-    region         = "<bucket-region>"
-    # Optional DynamoDB for state locking. See https://developer.hashicorp.com/terraform/language/settings/backends/s3 for details.
-    # dynamodb_table = "terraform-state-lock-table"
+    region         = "ap-south-1"
+    dynamodb_table = "terraform-state-lock-table"
     encrypt        = true
-    role_arn       = "arn:aws:iam::<your-aws-account-no>:role/<terraform-s3-backend-access-role>"
   }
 }
 
 provider "snowflake" {
-  username    = "<your_snowflake_username>"
-  account     = "<your_snowflake_account_identifier>"
-  role        = "<your_snowflake_role>"
-  private_key = var.snowflake_private_key
+  organization_name = "xodjopc"
+  account_name      = "jtc04659"
+  user              = "TERRAFORM_SVC"
+  role              = "SYSADMIN"
+  authenticator     = "SNOWFLAKE_JWT"
+  private_key       = var.snowflake_private_key
 }
 
-module "snowflake_resources" {
-  source              = "../modules/snowflake_resources"
-  time_travel_in_days = 1
-  database            = var.database
-  env_name            = var.env_name
+resource "snowflake_database" "tf_db" {
+  name         = "TF_DEMO_DB"
+  is_transient = false
 }
+
+resource "snowflake_warehouse" "tf_warehouse" {
+  name                      = "TF_DEMO_WH"
+  warehouse_type            = "STANDARD"
+  warehouse_size            = "SMALL"
+  max_cluster_count         = 1
+  min_cluster_count         = 1
+  auto_suspend              = 60
+  auto_resume               = true
+  enable_query_acceleration = false
+  initially_suspended       = true
+}
+
+# Create a new schema in the DB
+resource "snowflake_schema" "tf_db_tf_schema" {
+  name                = "TF_DEMO_SC"
+  database            = snowflake_database.tf_db.name
+  with_managed_access = false
+}
+
