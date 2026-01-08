@@ -13,7 +13,7 @@ terraform {
     # Optional DynamoDB for state locking. See https://developer.hashicorp.com/terraform/language/settings/backends/s3 for details.
     dynamodb_table = "terraform-state-lock-table"
     encrypt        = true
-    role_arn       = "arn:aws:iam::<your-aws-account-no>:role/<terraform-s3-backend-access-role>"
+    role_arn       = "arn:aws:iam::842675976939:role/github-actions-terraform"
   }
 }
 
