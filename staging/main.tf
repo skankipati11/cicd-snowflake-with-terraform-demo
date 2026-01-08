@@ -17,7 +17,7 @@ terraform {
 provider "snowflake" {
   organization_name = "xodjopc"
   account_name      = "jtc04659"
-  user              = "SKANKIPATI"
+  user              = "TERRAFORM_SVC"
   role              = "ACCOUNTADMIN"
   authenticator     = "SNOWFLAKE_JWT"
   private_key       = var.snowflake_private_key
