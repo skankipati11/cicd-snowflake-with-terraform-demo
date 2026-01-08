@@ -36,7 +36,7 @@ jobs:
       
       - name: Terraform Init
         id: init
-        run: terraform -chdir=./staging init
+        run: terraform -chdir=./staging init -upgrade
 
       - name: Terraform Format
         id: fmt
