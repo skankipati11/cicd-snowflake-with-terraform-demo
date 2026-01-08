@@ -47,6 +47,16 @@ resource "snowflake_schema" "tf_db_tf_schema" {
   with_managed_access = false
 }
 
+# New provider that will use USERADMIN to create users, roles, and grants
+provider "snowflake" {
+  organization_name = "xodjopc"
+  account_name      = "jtc04659"
+  user              = "TERRAFORM_SVC"
+  role              = "USERADMIN"
+  alias             = "useradmin"
+  authenticator     = "SNOWFLAKE_JWT"
+  private_key       = var.snowflake_private_key
+}
 
 # Create a new role using USERADMIN
 resource "snowflake_account_role" "tf_role" {
