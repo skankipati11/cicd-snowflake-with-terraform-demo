@@ -5,6 +5,10 @@ on:
     branches: 
       - staging
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy-terraform-staging:
     name: "Plan & Deploy Terraform plan on Staging"
